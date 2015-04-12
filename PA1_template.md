@@ -54,28 +54,16 @@ hist(stepsByDay$steps, main="Total number of steps taken per day", xlab="Number 
 
 
 3. Calculate and report the mean and median of the total number of steps taken per day
-
-Mean:
-
-```r
-stepsByDay_mean<- aggregate(x=mydata["steps"], by=list(mydata$date), FUN=mean, na.rm=TRUE)
-names(stepsByDay_mean)[1]<-"date"
-mp <- barplot(stepsByDay_mean$steps, main="Mean of the total number of steps taken per day", xlab="Date", ylab="Mean")
-axis(1,at=mp,labels=stepsByDay_mean$date)
-```
-
-![](PA1_template_files/figure-html/unnamed-chunk-6-1.png) 
-
-Median:
+Mean and Median:
 
 ```r
-stepsByDay_median <- aggregate(x=mydata["steps"], by=list(mydata$date), FUN=median, na.rm=TRUE)
-names(stepsByDay_median)[1]<-"date"
-mp <- barplot(stepsByDay_median$steps, main="Median of the total number of steps taken per day", xlab="Date", ylab="Median")
-axis(1,at=mp,labels=stepsByDay_median$date)
+summary(stepsByDay$steps)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-7-1.png) 
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##       0    6778   10400    9354   12810   21190
+```
 
 
 
@@ -88,10 +76,10 @@ axis(1,at=mp,labels=stepsByDay_median$date)
 ```r
 stepsByInterval <- aggregate(x=mydata["steps"], by=list(mydata$interval), FUN=mean, na.rm=TRUE)
 names(stepsByInterval)[1] <- "interval"
-plot(x=stepsByInterval$interval, y=stepsByInterval$steps, type="l", xlab="5 minutes Interval", ylab="Average number of Steps", main="Time series plot")
+plot(x=stepsByInterval$interval, y=stepsByInterval$steps, type="l", xlab="Interval [Minutes]", ylab="Average number of Steps", main="Time series plot")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-8-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-7-1.png) 
 
 
 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
@@ -126,7 +114,9 @@ length( ( which( is.na( mydata$steps ) ) ) )
 
 *The strategy devised fills all the missing values in the dataset with the mean for that 5-minute interval*.
 
-3. Create a new dataset (newdata) that is equal to the original dataset but with the missing data filled in.
+3. Create a new dataset that is equal to the original dataset but with the missing data filled in.
+
+*The new dataset is represented by the variable newdata*.
 
 ```r
 newdata <- mydata
@@ -154,29 +144,19 @@ names(newStepsByDay)[1]<-"date"
 hist(newStepsByDay$steps, main="Total number of steps taken per day", xlab="Number of steps", col="green")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-12-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-11-1.png) 
 
-Mean:
-
-```r
-stepsByDay_mean <- aggregate(x=newdata["steps"], by=list(newdata$date), FUN=mean)
-names(stepsByDay_mean)[1]<-"date"
-mp <- barplot(stepsByDay_mean$steps, main="Mean of the total number of steps taken per day", xlab="Date", ylab="Mean")
-axis(1,at=mp,labels=stepsByDay_mean$date)
-```
-
-![](PA1_template_files/figure-html/unnamed-chunk-13-1.png) 
-
-Median:
+Mean and Median:
 
 ```r
-stepsByDay_median <- aggregate(x=newdata["steps"], by=list(newdata$date), FUN=median)
-names(stepsByDay_median)[1]<-"date"
-mp <- barplot(stepsByDay_median$steps, main="Median of the total number of steps taken per day", xlab="Date", ylab="Median")
-axis(1,at=mp,labels=stepsByDay_median$date)
+summary(newStepsByDay$steps)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-14-1.png) 
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##      41    9819   10770   10770   12810   21190
+```
+
 
 *The values definitely differ from the estimates from the first part of the assignment*. 
 
@@ -210,4 +190,4 @@ names(stepsByType_date)[2] <- "typeOfDay"
 xyplot(steps ~ interval | typeOfDay, data = stepsByType_date, layout = c(1, 2), type="l")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-16-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-14-1.png) 
